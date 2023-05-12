@@ -14,13 +14,13 @@ def err(*args, **kwargs):
 
 def decode_file(file):
     with open(file, 'rb') as f:
-        print("Decoding {}".format(file))
+        print(f"Decoding {file}")
         decode_data(f.read())
 
 def decode_data(data):
     arg_size = (len(data) - 1) // 2
     if arg_size not in (16, 32, 64):
-        err("Incorrect argument size: {}".format(arg_size))
+        err(f"Incorrect argument size: {arg_size}")
         return
 
     op_index = int(data[0])
@@ -34,17 +34,17 @@ def decode_data(data):
     x = int.from_bytes(data[1:1 + arg_size], byteorder='big')
     y = int.from_bytes(data[1 + arg_size:], byteorder='big')
 
-    print("argument size: {}".format(arg_size))
+    print(f"argument size: {arg_size}")
     print(x, op, y)
     print(hex(x), op, hex(y))
 
     if op in ('/', 's/'):
         print("Test:")
         print("{")
-        print("    {}_u512,".format(hex(x)))
-        print("    {}_u512,".format(hex(y)))
-        print("    {}_u512,".format(hex(x // y)))
-        print("    {}_u512,".format(hex(x % y)))
+        print(f"    {hex(x)}_u512,")
+        print(f"    {hex(y)}_u512,")
+        print(f"    {hex(x // y)}_u512,")
+        print(f"    {hex(x % y)}_u512,")
         print("},")
 
     if op == 's/':
@@ -52,10 +52,10 @@ def decode_data(data):
         ay = (-y) % 2**512
         print("Test:")
         print("{")
-        print("    {}_u512,".format(hex(ax)))
-        print("    {}_u512,".format(hex(ay)))
-        print("    {}_u512,".format(hex(ax // ay)))
-        print("    {}_u512,".format(hex(ax % ay)))
+        print(f"    {hex(ax)}_u512,")
+        print(f"    {hex(ay)}_u512,")
+        print(f"    {hex(ax // ay)}_u512,")
+        print(f"    {hex(ax % ay)}_u512,")
         print("},")
 
 
